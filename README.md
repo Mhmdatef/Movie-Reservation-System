@@ -74,6 +74,4 @@ http://localhost:2000/api-docs
 4. Run `npm start` to start the server.
 5. Access the API documentation at `http://localhost:2000/api-docs`
 
----
 
-If you need help adding more details or want to customize the file further, I’m ready to help!
