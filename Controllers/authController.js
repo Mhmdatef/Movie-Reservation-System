@@ -67,7 +67,7 @@ exports.forgotPassword = async (req, res, next) => {
         return next(new appError('There is no user with that email address', 404));
     }
   // Generate a reset token
-  const resetToken = user.creatPasswordResetToken();
+  const resetToken = user.createPasswordResetToken();
     await user.save({ validateBeforeSave: false });
 const resetURL = `${req.protocol}://${req.get('host')}/api/v1/auth/resetPassword/${resetToken}`;
 const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
@@ -91,6 +91,7 @@ console.error('Error sending email: ', err);
 return res.status(500).json({ message: 'There was an error sending the email.', error: err.message });
 }
 };
+
 exports.resetPassword = async (req, res, next) => {
     const hashedToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
     const user= await User.findOne({
