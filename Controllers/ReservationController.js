@@ -176,4 +176,33 @@ exports.cancelReservation = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 }
+exports.removeSeatFromReservation = async (req,res)=>{
+reservation=Reservation.findById(req.params.reservationId)
+  if (!reservation) {
+    return res.status(404).json({ message: 'Reservation not found' });
+  }
 
+  const seatId = req.body.seatId;
+  const seatIndex = reservation.seatsIds.indexOf(seatId);
+    
+  if (seatIndex === -1) {
+    return res.status(404).json({ message: 'Seat not found in this reservation' });
+  }
+  if (reservation.paymentStatus==completed){
+        return res.status(404).json({ message: 'you can not remove seat from completed payment reservation ' });
+
+  }
+
+  reservation.seatsIds.splice(seatIndex, 1);
+  
+  await reservation.save();
+
+  // Update the seat to mark it as available
+  await Seat.findByIdAndUpdate(seatId, { isReserved: false });
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Seat removed from reservation successfully',
+    data: reservation 
+  });
+}

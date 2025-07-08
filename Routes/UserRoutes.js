@@ -24,7 +24,7 @@ const router = express.Router();
  */
 router
   .route('/')
-  .get(middleware.userProtect, middleware.restrictTo('admin'), UserController.getAllUsers);
+  .get( UserController.getAllUsers);
 
 /**
  * @swagger

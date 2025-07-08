@@ -57,7 +57,46 @@ router.post('/', middleware.userProtect, ReservationController.createReservation
  *       404:
  *         description: Reservation not found
  */
+
 router.post('/pay', middleware.userProtect, ReservationController.createCheckoutSession);
+/**
+ * @swagger
+ * /api/v1/reservations/removeSeatFromReservation/:reservationId:
+ *   delete:
+ *     summary: Remove a seat from a reservation
+ *     tags: [Reservations]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - seatId
+ *             properties:
+ *               seatId:
+ *                 type: string
+ *                 description: ID of the seat to remove
+ *     parameters:
+ *       - in: path
+ *         name: reservationId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Reservation ID
+ *     responses:
+ *       200:
+ *         description: Seat removed from reservation successfully
+ *       400:
+ *         description: Bad request
+ *       404:
+ *         description: Reservation or seat not found
+ */
+
+router.delete('/removeSeatFromReservation/:reservationId', middleware.userProtect, ReservationController.removeSeatFromReservation);
+
 
 /**
  * @swagger
@@ -106,5 +145,4 @@ router.get('/payment-success', middleware.userProtect, ReservationController.upd
  *         description: Reservation not found
  */
 router.delete('/cancel/:reservationId', middleware.userProtect, ReservationController.cancelReservation);
-
 module.exports = router;
