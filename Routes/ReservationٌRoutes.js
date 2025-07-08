@@ -61,7 +61,7 @@ router.post('/', middleware.userProtect, ReservationController.createReservation
 router.post('/pay', middleware.userProtect, ReservationController.createCheckoutSession);
 /**
  * @swagger
- * /api/v1/reservations/removeSeatFromReservation/:reservationId:
+ * /api/v1/reservations/removeSeatFromReservation/{reservationId}:
  *   delete:
  *     summary: Remove a seat from a reservation
  *     tags: [Reservations]

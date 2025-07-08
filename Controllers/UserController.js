@@ -27,7 +27,7 @@ exports.getUserReservations = async (req, res) => {
             }).
             populate({
                 path: 'seatsIds',
-                select: 'seatNumber -_id'
+                select: 'seatNumber '
             });
         res.status(200).json({
             status: 'success',

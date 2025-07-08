@@ -177,7 +177,7 @@ exports.cancelReservation = async (req, res) => {
   }
 }
 exports.removeSeatFromReservation = async (req,res)=>{
-reservation=Reservation.findById(req.params.reservationId)
+reservation=await Reservation.findById(req.params.reservationId)
   if (!reservation) {
     return res.status(404).json({ message: 'Reservation not found' });
   }
@@ -188,7 +188,7 @@ reservation=Reservation.findById(req.params.reservationId)
   if (seatIndex === -1) {
     return res.status(404).json({ message: 'Seat not found in this reservation' });
   }
-  if (reservation.paymentStatus==completed){
+  if (reservation.paymentStatus==="completed"){
         return res.status(404).json({ message: 'you can not remove seat from completed payment reservation ' });
 
   }
@@ -198,7 +198,7 @@ reservation=Reservation.findById(req.params.reservationId)
   await reservation.save();
 
   // Update the seat to mark it as available
-  await Seat.findByIdAndUpdate(seatId, { isReserved: false });
+  await Seat.findByIdAndUpdate(seatId, { isreserved: false });
 
   res.status(200).json({
     status: 'success',
