@@ -11,6 +11,58 @@ const router = express.Router();
  *   name: Movies
  *   description: Movie management with APIFeatures (Filtering, Sorting, Pagination)
  */
+/**
+ * @swagger
+ * /api/v1/movies:
+ *   post:
+ *     summary: Create a new movie (admin only)
+ *     tags: [Movies]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 example: The Godfather
+ *               description:
+ *                 type: string
+ *                 example: Crime film about a mafia family.
+ *               genre:
+ *                 type: string
+ *                 example: Drama
+ *               duration:
+ *                 type: number
+ *                 example: 175
+ *               rating:
+ *                 type: number
+ *                 example: 9.2
+ *               director:
+ *                 type: string
+ *                 example: Francis Ford Coppola
+ *               cast:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 example: ["Marlon Brando", "Al Pacino"]
+ *               posterImage:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       201:
+ *         description: Movie created successfully
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden (admin only)
+ */
+
 
 /**
  * @swagger
@@ -79,6 +131,7 @@ router
     MovieController.resizePoster,
     MovieController.createMovie
   );
+
 
 /**
  * @swagger

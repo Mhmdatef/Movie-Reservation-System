@@ -177,7 +177,8 @@ exports.cancelReservation = async (req, res) => {
   }
 }
 exports.removeSeatFromReservation = async (req,res)=>{
-reservation=await Reservation.findById(req.params.reservationId)
+  try
+{reservation=await Reservation.findById(req.params.reservationId)
   if (!reservation) {
     return res.status(404).json({ message: 'Reservation not found' });
   }
@@ -189,7 +190,7 @@ reservation=await Reservation.findById(req.params.reservationId)
     return res.status(404).json({ message: 'Seat not found in this reservation' });
   }
   if (reservation.paymentStatus==="completed"){
-        return res.status(404).json({ message: 'you can not remove seat from completed payment reservation ' });
+        return res.status(404).json({ message: 'you can not remove seat from paied reservation' });
 
   }
 
@@ -204,5 +205,42 @@ reservation=await Reservation.findById(req.params.reservationId)
     status: 'success',
     message: 'Seat removed from reservation successfully',
     data: reservation 
-  });
+  });}
+  catch(err){
+            res.status(500).json({ message: error.message });
+
+  }
 }
+exports.addSeatToReservation = async (req, res) => {
+  try {
+    const reservation = await Reservation.findById(req.params.reservationId);
+    if (!reservation) {
+      return res.status(404).json({ message: 'Reservation not found' });
+    }
+
+    const seatId = req.body.seatId;
+    const seat = await Seat.findById(seatId);
+    if (!seat) {
+      return res.status(404).json({ message: 'Seat not found' });
+    }
+
+    if (seat.isreserved) {
+      return res.status(400).json({ message: 'Seat is already reserved' });
+    }
+
+    reservation.seatsIds.push(seatId);
+    await reservation.save();
+
+    // Update the seat to mark it as reserved
+    seat.isreserved = true;
+    await seat.save();
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Seat added to reservation successfully',
+      data: reservation
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+} 

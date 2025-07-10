@@ -97,6 +97,43 @@ router.post('/pay', middleware.userProtect, ReservationController.createCheckout
 
 router.delete('/removeSeatFromReservation/:reservationId', middleware.userProtect, ReservationController.removeSeatFromReservation);
 
+/**
+ * @swagger
+ * /api/v1/reservations/addSeatToReservation/{reservationId}:
+ *   patch:
+ *     summary: add a seat from a reservation
+ *     tags: [Reservations]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - seatId
+ *             properties:
+ *               seatId:
+ *                 type: string
+ *                 description: ID of the seat to remove
+ *     parameters:
+ *       - in: path
+ *         name: reservationId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Reservation ID
+ *     responses:
+ *       200:
+ *         description: Seat added to reservation successfully
+ *       400:
+ *         description: Bad request
+ *       404:
+ *         description: Reservation or seat not found
+ */
+
+router.patch('/addSeatToReservation/:reservationId', middleware.userProtect, ReservationController.addSeatToReservation);
 
 /**
  * @swagger
