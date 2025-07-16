@@ -9,12 +9,12 @@ const options = {
     },
     servers: [
         {
-            url: 'http://localhost:2000', // تأكد إن ده البورت اللي انت مشغل عليه السيرفر
+            url: 'http://localhost:2000', 
         },
     ],
     components: {
         securitySchemes: {
-            bearerAuth: { // اسم السيكيورتي اللي هيتحط في التاجات بتاعت الـ routes
+            bearerAuth: { 
                 type: 'http',
                 scheme: 'bearer',
                 bearerFormat: 'JWT',

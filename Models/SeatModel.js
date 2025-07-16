@@ -23,3 +23,4 @@ const seatSchema = new Schema({
 }, { timestamps: true });
 const Seat = mongoose.model('Seat', seatSchema);
 module.exports = Seat;
+
